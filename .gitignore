@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyInstaller
+/build/
+/dist/
+*.spec
+
+# Ambientes Virtuais
+venv/
+env/
+.env
