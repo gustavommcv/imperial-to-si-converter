@@ -1,6 +1,8 @@
 from textual.app import App, ComposeResult
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Header, Footer, Select, Input, Label
+from textual.binding import Binding
+from typing import Any
 
 from core.conversions import get_categories
 from ui.bindings import KeybindsMixin
@@ -11,7 +13,7 @@ class CalculatorApp(EventsMixin, KeybindsMixin, App):
     """Aplicativo de Calculadora de Conversão com TUI Moderna e Modular."""
     
     # Textual MetaClasses exigem declaração estática na própria DOMNode:
-    BINDINGS = KeybindsMixin.BINDINGS
+    BINDINGS: list[Binding] | list[tuple[str, str, str]] | Any = KeybindsMixin.BINDINGS
 
     CSS_PATH = "styles.tcss"
     TITLE = "Conversor de Medidas | Sistema Imperial p/ SI"
@@ -25,20 +27,20 @@ class CalculatorApp(EventsMixin, KeybindsMixin, App):
             yield Label("Atividade Semestral 01 - Selecione a Grandeza", id="title-label")
             
             # Carrega listas limpas
-            categories_options = [(c, c) for c in get_categories()]
-            yield Select(categories_options, id="category-select", prompt="Escolha a Grandeza")
+            categories_options: list[tuple[str, str]] = [(str(c), str(c)) for c in get_categories()]
+            yield Select[str](categories_options, id="category-select", prompt="Escolha a Grandeza")
 
             with Horizontal(id="conversion-container"):
                 # Coluna Origem
                 with Vertical(classes="column"):
                     yield Label("De (Imperial):", classes="col-label")
-                    yield Select([], id="from-unit-select", prompt="Unidade Origem", disabled=True)
+                    yield Select[str]([], id="from-unit-select", prompt="Unidade Origem", disabled=True)
                     yield Input(placeholder="Digite o valor", id="input-value", type="number")
 
                 # Coluna Destino
                 with Vertical(classes="column"):
                     yield Label("Para (SI):", classes="col-label")
-                    yield Select([], id="to-unit-select", prompt="Unidade Destino", disabled=True)
+                    yield Select[str]([], id="to-unit-select", prompt="Unidade Destino", disabled=True)
                     yield Input(placeholder="Resultado da conversão", id="output-value", disabled=True)
             
             yield Label("", id="error-message")

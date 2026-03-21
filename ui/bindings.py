@@ -1,4 +1,5 @@
 from textual.binding import Binding
+from typing import Any
 
 class KeybindsMixin:
     """
@@ -16,21 +17,21 @@ class KeybindsMixin:
         Binding("q", "quit", "Sair")
     ]
 
-    def action_focus_next(self):
+    def action_focus_next(self: Any):
         """Ação para ir ao proximo campo usando atalhos vim"""
         self.screen.focus_next()
         
-    def action_focus_previous(self):
+    def action_focus_previous(self: Any):
         """Ação para ir ao campo anterior usando atalhos vim"""
         self.screen.focus_previous()
 
-    def action_cursor_down_vim(self):
+    def action_cursor_down_vim(self: Any):
         """Ação para ctrl+n descer listas de opção suspensas como no VIM."""
         focused = self.screen.focused
         if hasattr(focused, "action_cursor_down"):
             focused.action_cursor_down()
             
-    def action_cursor_up_vim(self):
+    def action_cursor_up_vim(self: Any):
         """Ação para ctrl+p subir listas de opção suspensas como no VIM."""
         focused = self.screen.focused
         if hasattr(focused, "action_cursor_up"):

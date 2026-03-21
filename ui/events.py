@@ -1,5 +1,6 @@
 from textual.widgets import Select, Input, Label
 from core.conversions import get_conversions_for_category, convert
+from typing import Any
 
 class EventsMixin:
     """
@@ -7,7 +8,7 @@ class EventsMixin:
     Garante que os dropdowns carreguem a próxima dependência logicamente.
     """
 
-    def on_select_changed(self, event: Select.Changed) -> None:
+    def on_select_changed(self: Any, event: Select.Changed) -> None:
         """Lida com as mudanças de valores nas caixas de seleção."""
         select_id = event.control.id
         
@@ -19,12 +20,12 @@ class EventsMixin:
         # Qualquer mudança nas dropdowns também atualiza a equação ao vivo.
         self.calculate()
 
-    def on_input_changed(self, event: Input.Changed) -> None:
+    def on_input_changed(self: Any, event: Input.Changed) -> None:
         """Monitora digitação numérica do campo para invocar o cálculo."""
         if event.control.id == "input-value":
             self.calculate()
 
-    def update_from_select(self, category_value: str) -> None:
+    def update_from_select(self: Any, category_value: Any) -> None:
         from_select = self.query_one("#from-unit-select", Select)
         to_select = self.query_one("#to-unit-select", Select)
         
@@ -44,7 +45,7 @@ class EventsMixin:
         to_select.set_options([])
         from_select.clear()
 
-    def update_to_select(self, from_unit_value: str) -> None:
+    def update_to_select(self: Any, from_unit_value: Any) -> None:
         to_select = self.query_one("#to-unit-select", Select)
         category_value = self.query_one("#category-select", Select).value
         
@@ -60,7 +61,7 @@ class EventsMixin:
         to_select.disabled = False
         to_select.clear()
 
-    def calculate(self) -> None:
+    def calculate(self: Any) -> None:
         """Consome o motor do pacote Core para performar conversão e desenhar no input"""
         error_label = self.query_one("#error-message", Label)
         output_input = self.query_one("#output-value", Input)
