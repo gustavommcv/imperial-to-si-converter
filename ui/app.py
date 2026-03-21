@@ -10,6 +10,9 @@ from ui.events import EventsMixin
 class CalculatorApp(EventsMixin, KeybindsMixin, App):
     """Aplicativo de Calculadora de Conversão com TUI Moderna e Modular."""
     
+    # Textual MetaClasses exigem declaração estática na própria DOMNode:
+    BINDINGS = KeybindsMixin.BINDINGS
+
     CSS_PATH = "styles.tcss"
     TITLE = "Conversor de Medidas | Sistema Imperial p/ SI"
     ENABLE_COMMAND_PALETTE = False
