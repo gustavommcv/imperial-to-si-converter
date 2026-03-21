@@ -11,7 +11,7 @@ def build():
 
         PyInstaller.__main__.run([
             'main.py',
-            '--name=Calculadora_Unidades',
+            '--name=imperial-to-si-converter',
             '--onefile',      # Gera apenas um único arquivo .exe
             '--console',      # Necessário para TUI de terminal como o Textual
             f'--add-data=ui/styles.tcss{sep}ui', # Trazendo os estilos CSS

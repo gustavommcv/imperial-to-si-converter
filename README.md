@@ -67,4 +67,4 @@ python -m core.test_conversions
 ```bash
 python build.py
 ```
-*(O artefato será gerado na pasta `dist/Calculadora_Unidades.exe`)*
+*(O artefato será gerado na pasta `dist/imperial-to-si-converter.exe`)*
