@@ -7,25 +7,29 @@
 ---
 
 ## 1. A Escolha da Interface: GUI vs TUI (Peso 1,5)
-"No gigantesco mundo dos softwares, a maioria das aplicações visuais tradicionais (GUI *Graphical User Interface*) depende de motores de renderização pesados baseados em janelas. Nós optamos por uma abordagem mais minimalista e performática construindo uma **TUI** (*Terminal User Interface*). Tivemos três grandes motivos técnicos para escolher o terminal em vez das janelas comuns:
+"Para o desenvolvimento visual, fugimos da maioria das aplicações tradicionais (GUI) que dependem de renderizadores pesados baseados em janelas. Nós optamos por uma abordagem direta, minimalista e de alta performance construindo uma **TUI** (*Terminal User Interface*). Tivemos três motivos técnicos centrais para escolher o terminal:
 
-1. **Produtividade:** Em ambientes de trabalho focados em *Tiling Window Managers* (como o Hyprland no Linux), tirar a mão do teclado para usar o mouse quebra o ritmo. Nós implementamos atalhos clássicos do editor de código VIM (`h, j, k, l` e `ctrl+n`) para que a calculadora consiga ser operada apenas por teclas.
-2. **Compatibilidade:** Nossa calculadora roda perfeitamente em computadores sem nenhuma interface gráfica (Servidores, SSH e terminais puros). Uma UI tradicional de janelas não rodaria nesses sistemas.
-3. **Usabilidade:** Mesmo com toda essa integração mais avançada de atalhos de teclado, para cumprir perfeitamente o requisito de facilidade de uso do trabalho, nós habilitamos **suporte total ao Mouse natural do terminal**, permitindo rolagens, seleções e cliques suaves para qualquer usuário que não está familiarizado com este tipo de aplicação."
-*(Neste momento, demonstre você navegando rápido com o teclado e em seguida dando um clique com o mouse no painel)*
+1. **Produtividade Nativa:** Em ambientes de trabalho focados em *Tiling Window Managers* (como o Hyprland no Linux), tirar a mão do teclado para usar o mouse quebra o ritmo. Nós implementamos atalhos clássicos do editor VIM (`h, j, k, l` e `ctrl+n`) para que a calculadora consiga ser operada apenas por teclas.
+2. **Compatibilidade Headless:** Nossa calculadora roda perfeitamente em computadores sem nenhuma interface gráfica (como Servidores, instâncias SSH e terminais puros). Uma UI de janelas quebraria e não rodaria nesses sistemas.
+3. **Usabilidade Universal:** Mesmo com a integração avançada de atalhos de teclado, precisávamos cumprir a métrica de facilidade de uso do trabalho. Por isso, habilitamos **suporte total ao Mouse nativo do terminal**. Isso permite rolagens, seleções e cliques suaves para qualquer pessoa que não esteja acostumada com navegação via terminal."
+
+*(Dica: Neste momento, demonstre você navegando rápido com o teclado e em seguida dando um clique com o mouse no painel)*
 
 ## 2. Demonstração e Precisão Lógica (Pesos 3,0 e 1,5)
-"Vocês podem notar que o funcionamento da tela não trava. Se a Grandeza não for selecionada, o resto obedece o ciclo e fica bloqueado.
-*(Mostre e cite em voz alta as 4 grandezas implementadas: Comprimento, Massa, Temperatura e Volume para garantir os 2,0 pontos de Abrangência. Em seguida, converta alguns valores ao vivo!)*
-Para a precisão matemática das equações, como Fahrenheit para Celsius utilizando `(X - 32) * 5/9`, nós fizemos um roteiro que roda **Testes Automatizados de Código** durante a compilação do arquivo. Eles forçam conversores contra gabaritos reais do SI com verificação decimal. Se os valores do nosso código fossem incoerentes, o programa sequer aceitaria ser gerado."
+"Como vocês podem ver, a tela lida com exceções e não trava em cliques arbitrários. Se nenhuma Grandeza inicial é selecionada, todo o resto obedece o ciclo lógico e fica bloqueado.
 
-## 3. O Código: Arquitetura e Desafios (Peso 1,0)
-"O back-end do software foi inteiro feito em **Python**, e a TUI gráfica usou a biblioteca **Textual**. Nós empacotamos tudo em um único `.exe` solto via PyInstaller para facilitar a distribuição.
-A **maior dificuldade** da equipe foi não misturar a imensa carga de linhas que desenham o visual com a matemática de conversão. 
-Nossa solução definitiva foi aplicar **Padrões de Projeto (Os famosos Design Patterns)**: A calculadora opera via *Plugins* Automáticos (*Registry Pattern*). Desenvolvemos um pacote separado (`core/units/`) onde cada arquivo abriga apenas uma grandeza única.
-Se a equipe ou qualquer pessoa (O projeto é open source) quiser adicionar 'Velocidade', basta jogar um arquivo solto nessa pasta sem mudar nenhuma linha do código-fonte visual, e a calculadora injeta ele nativamente na tela."
+*(Mostre as opções e cite as 4 grandezas implementadas: Comprimento, Massa, Temperatura e Volume, para garantir os 2,0 pontos de Abrangência. Em seguida, converta alguns valores ao vivo nas áreas testadas)*
+
+Sobre a precisão matemática das equações, como de Fahrenheit para Celsius usando `(X - 32) * 5/9`: Nós construímos e rodamos **Testes Automatizados** isolados que valem baseados em asserções decimais. Isso significa que, se as fórmulas matemáticas estivessem erradas ou o cálculo não batesse exatamente com a margem do SI, o nosso projeto sequer conseguia ser executado e compilado."
+
+## 3. Arquitetura do Código e Desafios (Peso 1,0)
+"Na parte técnica, o código inteiro rodou em **Python** e usamos a biblioteca **Textual** para gerenciar a visão TUI. Para facilitar a distribuição, usamos o PyInstaller e unimos todo o projeto diretamente num único executável (`.exe`).
+
+Nosso **maior desafio** foi manter o código organizado, estruturando-o de uma forma em que a própria lógica matemática não virasse bagunça no meio das linhas responsáveis por desenhar a tela.
+Para resolver isso, nós aplicamos um Padrão de Projeto de engenharia estrutural: isolamos componentes matemáticos em *Plugins* (usando o Registry Pattern).
+Criamos uma pasta separada (`core/units/`) onde cada grandeza vive num arquivo único e exclusivo. Como o nosso projeto é Open-Source e disponível no GitHub, essa arquitetura se mostra ideal. Se amanhã qualquer pessoa da comunidade quiser criar uma conversão de Densidade ou Velocidade, basta adicionar um novo arquivo lá e ele entrará na calculadora automaticamente, sem risco de quebrar a interface gráfica atual."
 
 ---
 
 ## 4. Encerramento (Peso 1,0)
-"Com essa arquitetura robusta entregamos a Atividade Semestral 01. Gostaríamos de encerrar por aqui e abrir para dúvidas da turma ou dos professores."
+"Sendo assim, encerramos por aqui a entrega da nossa Atividade Semestral de Modelagem. Estamos completamente abertos caso a turma ou os professores tenham alguma dúvida sobre o código ou a interface."
