@@ -25,17 +25,25 @@ Atualmente, o aplicativo contempla as seguintes quatro vertentes (Sistema Imperi
 - **Volume:** Onça Fluida, Galão -> Mililitro, Litro.
 - **Temperatura:** Fahrenheit -> Celsius.
 
-### Como adicionar ou alterar mais conversões:
+### Como adicionar mais grandezas (Design Pattern)
 
-Para inserir uma grandeza ou novas modalidades em uma categoria já formatada, você precisa editar apenas uma única estrutura de dados, o dicionário `CONVERSIONS` no arquivo localizado em `core/conversions.py`.
+A arquitetura do projeto evoluiu para ser infinitamente escalável sem esforço! Utilizamos implementações dos padrões de projeto de **Strategy** e **Registry**.  Cada grandeza reside na sua classe isolada e independente como um "Plugin" dentro da pasta `core/units/` (ex: `core/units/length.py`, `core/units/mass.py`). 
+
+Se a sua equipe quiser adicionar conversores de **Velocidade** amanhã, você sequer precisa tocar no código das outras grandezas ou configurar telas. Basta criar um novo arquivo `core/units/speed.py`:
 
 ```python
-# Categoria -> { (Unidade de Origem, Unidade de Destino) : Expressão Lambda de Conversão }
-UnitCategory.LENGTH: {
-    ("Polegada (in)", "Centímetro (cm)"): lambda x: x * 2.54,
+from core.conversions import ConversionRegistry
+
+# O decorador auto-registra sua classe nas telas da UI e nos cálculos internos magicamente!
+@ConversionRegistry.register("Velocidade")
+class SpeedConverter:
+    def __init__(self):
+        self.conversions = {
+            ("Milha por hr (mph)", "Km por hr (km/h)"): lambda x: x * 1.60934,
+        }
     ...
 ```
-Qualquer alteração feita no dicionário `CONVERSIONS` será lida e automaticamente renderizada como um novo item de escolha na interface de terminal do próprio _app_, não sendo necessário alterar arquivos de configuração visual nem a arquitetura da UI.
+Qualquer novo arquivo é lido e estende as capacidades da TUI sem risco de interrupção do sistema. Um benefício massivo para o princípio do **Aberto - Fechado** do *SOLID*.
 
 ## Ambiente de Desenvolvimento e Instalação
 
@@ -49,7 +57,13 @@ pip install -r requirements.txt
 python main.py
 ```
 
-**3.** Criar um binário final (Executável) fechado para distribuição acadêmica/uso rápido:
+**3.** Executar a Bateria de Testes Automatizados (Opcional):
+Devido à arquitetura baseada em subpacotes conectáveis (`core/units`), você invoca o verificador rigoroso usando o Python em modo módulo (`-m`):
+```bash
+python -m core.test_conversions
+```
+
+**4.** Criar um binário final (Executável) fechado para distribuição acadêmica/uso rápido:
 ```bash
 python build.py
 ```
