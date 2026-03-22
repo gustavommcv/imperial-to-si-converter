@@ -2,6 +2,12 @@
 
 Calculadora orientada a terminal (TUI) para conversões do Sistema Imperial para o Sistema Internacional (SI).
 
+<img width="1086" height="574" alt="image" src="https://github.com/user-attachments/assets/daa4fb27-1091-48cb-9d67-64c7e58bab80" />
+
+<img width="1086" height="574" alt="image" src="https://github.com/user-attachments/assets/f7279d47-3f11-45ba-ba35-c52148f436ec" />
+
+<img width="1086" height="578" alt="image" src="https://github.com/user-attachments/assets/a16006d7-5e5d-4d05-adbd-4828c5655548" />
+
 ## Contexto Acadêmico
 
 Projeto desenvolvido para o curso de **Engenharia Elétrica da Universidade Positivo**, como cumprimento da avaliação parcial da **Atividade Semestral 01 - Modelagem I**. 
