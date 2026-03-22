@@ -9,7 +9,7 @@
 ## 1. A Escolha da Interface: GUI vs TUI (Peso 1,5)
 "Para o desenvolvimento visual, fugimos da maioria das aplicações tradicionais (GUI) que dependem de renderizadores pesados baseados em janelas. Nós optamos por uma abordagem direta, minimalista e de alta performance construindo uma **TUI** (*Terminal User Interface*). Tivemos três motivos técnicos centrais para escolher o terminal:
 
-1. **Produtividade Nativa:** Em ambientes de trabalho focados em *Tiling Window Managers* (como o Hyprland no Linux), tirar a mão do teclado para usar o mouse quebra o ritmo. Nós implementamos atalhos clássicos do editor VIM (`h, j, k, l` e `ctrl+n`) para que a calculadora consiga ser operada apenas por teclas.
+1. **Produtividade Nativa:** Em ambientes de trabalho focados em *Tiling Window Managers* (como o Hyprland no Linux), tirar a mão do teclado para usar o mouse quebra o ritmo. Nós implementamos atalhos clássicos do editor VIM (`h, j, k, l`, `ctrl+n/p` e `Esc`) para que a calculadora consiga ser operada apenas por teclas.
 2. **Compatibilidade Headless:** Nossa calculadora roda perfeitamente em computadores sem nenhuma interface gráfica (como Servidores, instâncias SSH e terminais puros). Uma UI de janelas quebraria e não rodaria nesses sistemas.
 3. **Usabilidade Universal:** Mesmo com a integração avançada de atalhos de teclado, precisávamos cumprir a métrica de facilidade de uso do trabalho. Por isso, habilitamos **suporte total ao Mouse nativo do terminal**. Isso permite rolagens, seleções e cliques suaves para qualquer pessoa que não esteja acostumada com navegação via terminal."
 

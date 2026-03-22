@@ -13,14 +13,19 @@ A concepção da calculadora foi inteiramente voltada para o terminal (TUI) pela
 A arquitetura do software assegura baixa dependência entre a lógica de aplicação e a sua representação em tela, baseando-se em dois pacotes fundamentais:
 
 * `core/`: Motor matemático e dados. Trata estritamente a conversão (`conversions.py`) sem qualquer vínculo com a interação visual, contendo também testes (`test_conversions.py`) para confirmar as conversões do SI.
-* `ui/`: Controlador de visualização e eventos (`app.py`), e seu respectivo escopo visual (`styles.tcss`).
+  * `core/units/`: Subpacote de plugins — cada arquivo (`length.py`, `mass.py`, `temperature.py`, `volume.py`) é um conversor auto-registrável via decorador.
+* `ui/`: Camada de visualização, dividida em três responsabilidades:
+  * `app.py`: Composição da árvore de componentes visuais.
+  * `events.py`: Callbacks de eventos (`EventsMixin`) — atualização de dropdowns e cálculo ao vivo.
+  * `bindings.py`: Atalhos de teclado (`KeybindsMixin`) — navegação estilo Vim (h/j/k/l, Ctrl+n/p, Esc).
+  * `styles.tcss`: Estilos visuais da TUI.
 * `main.py`: Ponto de execução do aplicativo.
 * `build.py`: Auxiliar para exportação de um binário autônomo.
 
 ## Como as grandezas são convertidas e catalogadas?
 
 Atualmente, o aplicativo contempla as seguintes quatro vertentes (Sistema Imperial -> SI):
-- **Comprimento:** Polegada, Pé, Jarda, Milha -> Centímetro, Metro, Quilômetro.
+- **Comprimento:** Polegada, Pé, Jarda, Milha -> Milímetro, Centímetro, Metro, Quilômetro.
 - **Massa/Peso:** Onça, Libra -> Grama, Quilograma.
 - **Volume:** Onça Fluida, Galão -> Mililitro, Litro.
 - **Temperatura:** Fahrenheit -> Celsius.
