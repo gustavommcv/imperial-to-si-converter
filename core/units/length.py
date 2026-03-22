@@ -1,21 +1,30 @@
 from core.conversions import ConversionRegistry
 
+
 @ConversionRegistry.register("Comprimento")
 class LengthConverter:
     def __init__(self):
-        # Dicionário interno de lógicas restrito desta classe
-        self.conversions = {
-            ("Polegada (in)", "Centímetro (cm)"): lambda x: x * 2.54,
-            ("Pé (ft)", "Metro (m)"): lambda x: x * 0.3048,
-            ("Jarda (yd)", "Metro (m)"): lambda x: x * 0.9144,
-            ("Milha (mi)", "Quilômetro (km)"): lambda x: x * 1.60934,
+        # Conversão para unidade base (metro)
+        self.to_meter = {
+            "Polegada (in)": lambda x: x * 0.0254,
+            "Pé (ft)": lambda x: x * 0.3048,
+            "Jarda (yd)": lambda x: x * 0.9144,
+            "Milha (mi)": lambda x: x * 1609.34,
+        }
+
+        # Conversão da base para SI
+        self.from_meter = {
+            "Quilômetro (km)": lambda x: x / 1000,
+            "Metro (m)": lambda x: x,
+            "Centímetro (cm)": lambda x: x * 100,
+            "Milímetro (mm)": lambda x: x * 1000,
         }
 
     def get_available_conversions(self):
-        return list(self.conversions.keys())
+        return [(f, t) for f in self.to_meter for t in self.from_meter]
 
-    def convert(self, from_unit: str, to_unit: str, value: float):
-        func = self.conversions.get((from_unit, to_unit))
-        if func:
-            return func(value)
-        raise ValueError(f"Conversão de '{from_unit}' para '{to_unit}' em Comprimento não suportada.")
+    def convert(self, from_unit, to_unit, value):
+        if from_unit in self.to_meter and to_unit in self.from_meter:
+            base = self.to_meter[from_unit](value)
+            return self.from_meter[to_unit](base)
+        raise ValueError("Conversão não suportada")

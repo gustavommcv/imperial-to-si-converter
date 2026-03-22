@@ -1,43 +1,50 @@
 from textual.binding import Binding
 from typing import Any
 
+
 class KeybindsMixin:
     """
     Mixin contendo toda a lógica de manipulação de atalhos e suporte ao teclado.
     Projetado para abstrair os Motion do VIM e interações fluídas para Tiling Window Managers.
     """
-    
+
     BINDINGS = [
         Binding("h", "vim_left", "Esquerda (Vim-h)", show=False),
         Binding("j", "vim_down", "Baixo (Vim-j)", show=False),
         Binding("k", "vim_up", "Cima (Vim-k)", show=False),
         Binding("l", "vim_right", "Direita (Vim-l)", show=False),
         Binding("escape", "escape_vim", "Normal Mode (Vim-Esc)", show=True),
-        Binding("ctrl+n", "cursor_down_vim", "Para Baixo Lista (Vim)", priority=True, show=False),
-        Binding("ctrl+p", "cursor_up_vim", "Para Cima Lista (Vim)", priority=True, show=False),
-        Binding("q", "quit", "Sair")
+        Binding(
+            "ctrl+n",
+            "cursor_down_vim",
+            "Para Baixo Lista (Vim)",
+            priority=True,
+            show=False,
+        ),
+        Binding(
+            "ctrl+p",
+            "cursor_up_vim",
+            "Para Cima Lista (Vim)",
+            priority=True,
+            show=False,
+        ),
+        Binding("q", "quit", "Sair"),
     ]
 
     FOCUS_MAP = {
-        "left": {
-            "to-unit-select": "from-unit-select",
-            "output-value": "input-value"
-        },
-        "right": {
-            "from-unit-select": "to-unit-select",
-            "input-value": "output-value"
-        },
+        "left": {"to-unit-select": "from-unit-select", "output-value": "input-value"},
+        "right": {"from-unit-select": "to-unit-select", "input-value": "output-value"},
         "up": {
             "from-unit-select": "category-select",
             "to-unit-select": "category-select",
             "input-value": "from-unit-select",
-            "output-value": "to-unit-select"
+            "output-value": "to-unit-select",
         },
         "down": {
             "category-select": "from-unit-select",
             "from-unit-select": "input-value",
-            "to-unit-select": "output-value"
-        }
+            "to-unit-select": "output-value",
+        },
     }
 
     def _move_focus(self: Any, direction: str) -> None:
@@ -48,10 +55,10 @@ class KeybindsMixin:
             except Exception:
                 pass
             return
-            
+
         current_id = focused.id if focused else None
         next_id = self.FOCUS_MAP.get(direction, {}).get(current_id)
-        
+
         if next_id:
             try:
                 target = self.query_one(f"#{next_id}")
@@ -94,7 +101,7 @@ class KeybindsMixin:
         focused = self.screen.focused
         if hasattr(focused, "action_cursor_down"):
             focused.action_cursor_down()
-            
+
     def action_cursor_up_vim(self: Any):
         """Ação para ctrl+p subir listas de opção suspensas como no VIM."""
         focused = self.screen.focused

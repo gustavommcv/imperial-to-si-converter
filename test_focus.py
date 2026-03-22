@@ -2,6 +2,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Input, Select, Label
 from textual.binding import Binding
 
+
 class TestApp(App):
     BINDINGS = [
         Binding("escape", "app.clear_focus", "Clear Focus", show=True),
@@ -24,6 +25,7 @@ class TestApp(App):
 
     def action_focus_right(self):
         self.notify("Right pressed")
+
 
 if __name__ == "__main__":
     app = TestApp()

@@ -1,14 +1,17 @@
 # Registry Base
 class ConversionRegistry:
     """Implementa o padrão de projeto Registry e Strategy para escalar novas Grandezas"""
+
     _strategies = {}
 
     @classmethod
     def register(cls, category_name: str):
         """Decorador para auto-registrar uma grandeza nova na inicialização."""
+
         def decorator(converter_class):
             cls._strategies[category_name] = converter_class()
             return converter_class
+
         return decorator
 
     @classmethod
@@ -23,11 +26,16 @@ class ConversionRegistry:
         return []
 
     @classmethod
-    def convert(cls, category_name: str, from_unit: str, to_unit: str, value: float) -> float:
+    def convert(
+        cls, category_name: str, from_unit: str, to_unit: str, value: float
+    ) -> float:
         converter = cls._strategies.get(category_name)
         if converter:
             return converter.convert(from_unit, to_unit, value)
-        raise ValueError(f"A Categoria '{category_name}' não foi registrada com sucesso.")
+        raise ValueError(
+            f"A Categoria '{category_name}' não foi registrada com sucesso."
+        )
+
 
 # Para não quebrar NADA da nossa Interface Gráfica (ui/app.py) que importa métodos puros,
 # mantemos uma "casca/interface" (API pública) ligando ao nosso Registry Singleton:
